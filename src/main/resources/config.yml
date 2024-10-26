@@ -1,0 +1,13 @@
+# 开发者站点 https://afdian.com/dashboard/dev
+# web服务
+web:
+  # 端口 默认8000
+  port: 8000
+# 充值比例 1 = 10
+scale: 10
+# 爱发电配置
+afd:
+  # 开发者 token
+  token: ""
+  # 开发者 userId
+  userId: ""
