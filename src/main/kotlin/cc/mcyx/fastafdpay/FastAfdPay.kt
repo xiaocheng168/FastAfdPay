@@ -1,8 +1,8 @@
 package cc.mcyx.fastafdpay
 
 import cc.mcyx.arona.core.listener.annotation.Listener
+import cc.mcyx.arona.core.metrics.Metrics
 import cc.mcyx.arona.core.plugin.AronaPlugin
-import cc.mcyx.fastafdpay.api.Metrics
 import cc.mcyx.fastafdpay.web.WebService
 
 @Listener
