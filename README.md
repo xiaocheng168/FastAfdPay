@@ -1,2 +1,25 @@
-# 这是 Arona Bukkit 框架的一个插件空架子
-## 用来快速开发插件用的，直接 clone 即可
+# 介绍
+
+这是一个让服务器与你的爱发电进行自助赞助或者充值系统
+
+## 依赖
+
+- [PlayerPoints](https://www.spigotmc.org/resources/playerpoints.80745/ "PlayerPoints")
+
+## 配置
+
+```yaml
+# 开发者站点 https://afdian.com/dashboard/dev
+# web服务
+web:
+  # 端口 默认8000
+  port: 8000
+# 充值比例 1 = 10
+scale: 10
+# 爱发电配置
+afd:
+  # 开发者 token
+  token: ""
+  # 开发者 userId
+  userId: ""
+```
