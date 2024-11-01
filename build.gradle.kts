@@ -13,7 +13,7 @@ kotlin {
 }
 
 group = "cc.mcyx.arona"
-version = "1.0"
+version = "1.0.1"
 
 val aronaVersion = "1.0.0"
 val arona = "cc.mcyx:Arona"

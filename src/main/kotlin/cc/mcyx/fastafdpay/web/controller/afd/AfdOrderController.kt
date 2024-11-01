@@ -26,6 +26,10 @@ object AfdOrderController : BaseController(Method.POST) {
             payload.getJSONObject("data")?.getJSONObject("order") ?: throw InvalidDataException("无效的数据 $payload")
         val id = order.getStr("remark")
         val outTradeNo = order.getStr("out_trade_no")
+        if (outTradeNo == "202106232138371083454010626") {
+            FastAfdPay.fastAfdPay.logger.info("爱发电测试已通过!")
+            return null
+        }
         if (checkIsPay(outTradeNo).isEmpty()) throw SecurityException("玩家 $id 充值过程，异常请求!并没有查找到这个订单! $outTradeNo")
         val payMoney = order.getDouble("total_amount")
         val offlinePlayer =
