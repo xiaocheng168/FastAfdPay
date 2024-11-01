@@ -24,8 +24,12 @@ object AfdOrderController : BaseController(Method.POST) {
         val payload = p0.payload()
         val order =
             payload.getJSONObject("data")?.getJSONObject("order") ?: throw InvalidDataException("无效的数据 $payload")
-        val id = order.getStr("remark")
         val outTradeNo = order.getStr("out_trade_no")
+        val id = order.getStr("remark")
+        if (id == "") {
+            FastAfdPay.fastAfdPay.logger.info("订单 $outTradeNo 没有填写游戏id，已略过处理")
+            return null
+        }
         if (outTradeNo == "202106232138371083454010626") {
             FastAfdPay.fastAfdPay.logger.info("爱发电测试已通过!")
             return null
@@ -37,16 +41,16 @@ object AfdOrderController : BaseController(Method.POST) {
         val points = (payMoney * FastAfdPay.fastAfdPay.config.getInt("scale", 10)).toInt()
 
 
-        // CallEvent
-        AfdOrderPayEvent(PayInfo(id, outTradeNo, payMoney, points)).also {
-            Bukkit.getPluginManager().callEvent(it)
-            if (it.isCancelled) return null
+        Bukkit.getScheduler().runTask(FastAfdPay.fastAfdPay) {
+            // CallEvent
+            AfdOrderPayEvent(PayInfo(id, outTradeNo, payMoney, points)).also {
+                Bukkit.getPluginManager().callEvent(it)
+                if (it.isCancelled) return@also
+                playerPoints.give(offlinePlayer.uniqueId, points)
+                FastAfdPay.fastAfdPay.logger.info("玩家 $id 使用爱发电充值 $payMoney 活的 $points 点券")
+                if (offlinePlayer.isOnline) offlinePlayer.player.sendMessage("充值成功 $payMoney 获得 $points 点券")
+            }
         }
-
-
-        playerPoints.give(offlinePlayer.uniqueId, points)
-        FastAfdPay.fastAfdPay.logger.info("玩家 $id 使用爱发电充值 $payMoney 活的 $points 点券")
-        if (offlinePlayer.isOnline) offlinePlayer.player.sendMessage("充值成功 $payMoney 获得 $points 点券")
         return null
     }
 
@@ -70,7 +74,6 @@ object AfdOrderController : BaseController(Method.POST) {
             val data = response.getJSONObject("data")
             val list = data.getJSONArray("list")
             return list
-        }
-        return JSONArray()
+        } else throw RuntimeException(response.getStr("em"))
     }
 }
