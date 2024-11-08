@@ -1,9 +1,10 @@
 name: FastAfdPay
-version: 1.0.1
+version: 1.0.2
 main: cc.mcyx.fastafdpay.FastAfdPay
 author: Zcc
 website: https://game.mcyx.cc/
 description: "这是一个爱发电自助充值处理插件"
+folia-supported: true
 depend:
   - PlayerPoints
 commands:
