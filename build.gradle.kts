@@ -35,9 +35,10 @@ val inAronaModule = listOf(
 )
 dependencies {
     inAronaModule.forEach { implementation(it) }
-    compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
+//    compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
     implementation("cn.hutool:hutool-all:5.8.32")
     implementation(files("lib/PlayerPoints.jar"))
+    implementation(files("lib/spigot-api-1.20.1-R0.1-SNAPSHOT.jar"))
 }
 
 

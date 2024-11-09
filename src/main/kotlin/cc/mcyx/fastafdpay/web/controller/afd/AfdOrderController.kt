@@ -41,16 +41,16 @@ object AfdOrderController : BaseController(Method.POST) {
         val points = (payMoney * FastAfdPay.fastAfdPay.config.getInt("scale", 10)).toInt()
 
 
-        Bukkit.getScheduler().runTask(FastAfdPay.fastAfdPay) {
+        Bukkit.getScheduler().runTask(FastAfdPay.fastAfdPay, Runnable {
             // CallEvent
             AfdOrderPayEvent(PayInfo(id, outTradeNo, payMoney, points)).also {
                 Bukkit.getPluginManager().callEvent(it)
                 if (it.isCancelled) return@also
                 playerPoints.give(offlinePlayer.uniqueId, points)
                 FastAfdPay.fastAfdPay.logger.info("玩家 $id 使用爱发电充值 $payMoney 活的 $points 点券")
-                if (offlinePlayer.isOnline) offlinePlayer.player.sendMessage("充值成功 $payMoney 获得 $points 点券")
+                if (offlinePlayer.isOnline) offlinePlayer.player?.sendMessage("充值成功 $payMoney 获得 $points 点券")
             }
-        }
+        })
         return null
     }
 

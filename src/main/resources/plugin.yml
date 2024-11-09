@@ -6,5 +6,6 @@ website: https://game.mcyx.cc/
 description: "这是一个爱发电自助充值处理插件"
 folia-supported: true
 load: STARTUP
+api-version: 1.13
 depend:
   - PlayerPoints

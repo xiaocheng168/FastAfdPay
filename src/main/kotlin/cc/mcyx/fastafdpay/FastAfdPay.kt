@@ -26,8 +26,8 @@ class FastAfdPay : AronaPlugin() {
         fastAfdPay = this
         AronaConfig(this, "config.yml", saveResource = true).also { ac ->
             fun loadConfig() {
-                token = ac.config.getString("afd.token")
-                userId = ac.config.getString("afd.userId")
+                token = ac.config.getString("afd.token") ?: ""
+                userId = ac.config.getString("afd.userId") ?: ""
             }
             ac.configReload { loadConfig() }
             loadConfig()
