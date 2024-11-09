@@ -1,7 +1,11 @@
 package cc.mcyx.fastafdpay
 
+import cc.mcyx.arona.config.AronaConfig
 import cc.mcyx.arona.core.listener.annotation.Listener
+import cc.mcyx.arona.core.loader.AronaLoader
+import cc.mcyx.arona.core.loader.LibInfo
 import cc.mcyx.arona.core.plugin.AronaPlugin
+import cc.mcyx.fastafdpay.command.AfdOpenCommand
 import cc.mcyx.fastafdpay.web.WebService
 
 @Listener
@@ -13,12 +17,27 @@ class FastAfdPay : AronaPlugin() {
         lateinit var userId: String
     }
 
+    private lateinit var ws: WebService
+    override fun onLoaded() {
+        AronaLoader.loadCloudLib(LibInfo("com.google.zxing", "core", "3.3.3", LibInfo.Source.ALIBABA))
+    }
+
     override fun onEnabled() {
-        saveDefaultConfig()
-        WebService(config.getInt("web.port", 8000)).start()
-        token = config.getString("afd.token") ?: throw RuntimeException("token 未设置")
-        userId = config.getString("afd.userId") ?: throw RuntimeException("userId 未设置")
         fastAfdPay = this
+        AronaConfig(this, "config.yml", saveResource = true).also { ac ->
+            fun loadConfig() {
+                token = ac.config.getString("afd.token")
+                userId = ac.config.getString("afd.userId")
+            }
+            ac.configReload { loadConfig() }
+            loadConfig()
+        }
+        ws = WebService(config.getInt("web.port", 8000)).also { it.start() }
         metricsCall(23720)
+    }
+
+    override fun onDisabled() {
+        AfdOpenCommand.cancelAll()
+        ws.closeService()
     }
 }

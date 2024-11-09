@@ -31,6 +31,7 @@ val inAronaModule = listOf(
     aronaModule("Arona"),
     aronaModule("Arona-GUI"),
     aronaModule("Arona-NMS"),
+    aronaModule("Arona-Config"),
 )
 dependencies {
     inAronaModule.forEach { implementation(it) }
