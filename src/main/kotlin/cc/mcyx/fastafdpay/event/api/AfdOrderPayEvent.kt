@@ -10,11 +10,11 @@ class AfdOrderPayEvent(
 ) : Event(), Cancellable {
 
     companion object {
-        val handlerList = HandlerList()
+        val handlers = HandlerList()
     }
 
     override fun getHandlers(): HandlerList {
-        return handlerList
+        return AfdOrderPayEvent.handlers
     }
 
     private var isCancel: Boolean = false
