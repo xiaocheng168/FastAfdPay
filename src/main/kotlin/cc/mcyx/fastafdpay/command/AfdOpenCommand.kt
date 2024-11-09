@@ -21,7 +21,12 @@ import org.bukkit.map.MapRenderer
 import org.bukkit.map.MapView
 import java.util.*
 
-@Command("FAfdOpen", permission = "cc.mcyx.fastafdpay.open")
+@Command(
+    "FAfdOpen",
+    permission = "cc.mcyx.fastafdpay.open",
+    description = "打开二维码",
+    noPermission = "§c§l貌似没有权限哦"
+)
 @Listener
 object AfdOpenCommand : BaseCommand() {
     private val payIng = mutableMapOf<Player, ItemStack>()
@@ -34,6 +39,12 @@ object AfdOpenCommand : BaseCommand() {
             }
             commandSender.teleport(commandSender.location.apply { pitch = 90F })
             commandSender.inventory.setItemInMainHand(getItem(commandSender))
+            commandSender.sendMessage(
+                """
+                §a§l按 Q 取消支付
+                §a§l支付完后会自动关闭二维码
+            """.trimIndent()
+            )
         } else commandSender.sendMessage("§a只有玩家可以执行这个命令")
         return true
     }
@@ -109,7 +120,7 @@ object AfdOpenCommand : BaseCommand() {
                 override fun run() {
                     player.inventory.setItemInMainHand(payIng[player])
                     payIng.remove(player)
-                    if (!success) player.sendTitle("", "§c§l取消支付", 5, 10, 5)
+                    if (!success) player.sendMessage("§c§l取消支付")
                 }
             }, 100)
             return true

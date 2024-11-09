@@ -23,3 +23,9 @@ afd:
   # 开发者 userId
   userId: ""
 ```
+
+## 命令与权限
+
+|    命令    |            权限            | 默认 |
+|:--------:|:------------------------:|:--:|
+| FAfdOpen | cc.mcyx.fastafdpay.open  | OP |

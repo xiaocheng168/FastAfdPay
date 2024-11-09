@@ -1,5 +1,4 @@
 import com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar
-import org.jetbrains.kotlin.ir.backend.js.compile
 import org.jetbrains.kotlin.utils.addToStdlib.ifTrue
 
 plugins {
@@ -37,6 +36,8 @@ dependencies {
     inAronaModule.forEach { implementation(it) }
 //    compileOnly("org.spigotmc:spigot-api:1.12.2-R0.1-SNAPSHOT")
     implementation("cn.hutool:hutool-all:5.8.32")
+    implementation("org.xerial:sqlite-jdbc:3.47.0.0")
+    implementation("org.ktorm:ktorm-support-sqlite:4.1.1")
     implementation(files("lib/PlayerPoints.jar"))
     implementation(files("lib/spigot-api-1.20.1-R0.1-SNAPSHOT.jar"))
 }

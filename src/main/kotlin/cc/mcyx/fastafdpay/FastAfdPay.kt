@@ -20,6 +20,8 @@ class FastAfdPay : AronaPlugin() {
     private lateinit var ws: WebService
     override fun onLoaded() {
         AronaLoader.loadCloudLib(LibInfo("com.google.zxing", "core", "3.3.3", LibInfo.Source.ALIBABA))
+        AronaLoader.loadCloudLib(LibInfo("org.ktorm", "ktorm-core", "4.1.1", LibInfo.Source.ALIBABA))
+        AronaLoader.loadCloudLib(LibInfo("org.ktorm", "ktorm-support-sqlite", "4.1.1", LibInfo.Source.ALIBABA))
     }
 
     override fun onEnabled() {
